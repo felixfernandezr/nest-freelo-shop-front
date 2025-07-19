@@ -1,0 +1,12 @@
+@if (loading()) {
+  <p>Cargando carrito...</p>
+} @else {
+  @if (cartItems().length > 0) {
+    <cart-table
+      [products]="cartItems()"
+      (deleteSelected)="handleDeleteSelected($event)"
+    />
+  } @else {
+    <p>No hay productos en el carrito</p>
+  }
+}

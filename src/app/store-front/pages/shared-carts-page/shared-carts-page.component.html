@@ -1,0 +1,40 @@
+<h2 class="text-xl font-bold mb-4">Carritos que te compartieron</h2>
+
+<user-search (userSelected)="shareCartWith($event)" />
+
+<div class="mt-4">
+  @if (loading()) {
+    <p>Cargando carritos compartidos...</p>
+  } @else {
+
+    @if (selectedCart() === null) {
+      @if (sharedCarts().length > 0) {
+        <shared-cart-list
+          [sharedCarts]="sharedCarts()"
+          (selectCart)="selectedCart.set($event)"
+        />
+      } @else {
+        <p>No recibiste ningún carrito aún.</p>
+      }
+    } @else {
+      <!-- Detalle del carrito seleccionado -->
+      <div class="mt-6">
+        <button
+          class="mb-4 text-sm text-blue-600 hover:underline"
+          (click)="selectedCart.set(null)"
+        >
+          ← Volver al listado
+        </button>
+
+        <h3 class="text-lg font-semibold mb-2">Detalle del carrito seleccionado</h3>
+        <cart-table [products]="selectedCart()!" />
+      </div>
+    }
+  }
+</div>
+
+@if (wasSaved()) {
+  <div class="alert alert-success fixed bottom-4 right-4 w-80 animate-fadeIn">
+    <span>Carrito compartido con éxito!</span>
+  </div>
+}

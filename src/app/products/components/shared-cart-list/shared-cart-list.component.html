@@ -1,0 +1,14 @@
+<ul class="space-y-4">
+  @for (shared of sharedCarts; track shared.sharedAt) {
+    <li
+      class="border p-4 rounded-lg shadow cursor-pointer hover:bg-yellow-100 transition"
+      (click)="selectCart.emit(shared.cart)">
+      <div class="font-semibold">
+        {{ shared.sharedBy.fullName }} ({{ shared.sharedBy.email }})
+      </div>
+      <div class="text-sm text-gray-500">
+        Compartido el {{ shared.sharedAt | date:'medium' }}
+      </div>
+    </li>
+  }
+</ul>

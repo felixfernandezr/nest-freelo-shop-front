@@ -1,0 +1,100 @@
+<div class="overflow-x-auto">
+  <!-- Botón eliminar -->
+  @if (hasSelection()) {
+    <div class="mb-4">
+      <button class="btn btn-error btn-sm" (click)="deleteSelectedItems()">
+        🗑️ Eliminar seleccionados
+      </button>
+    </div>
+  }
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          <label>
+            <input
+              type="checkbox"
+              class="checkbox"
+              [checked]="allSelected()"
+              (change)="toggleSelectAll()"
+            />
+          </label>
+        </th>
+        <th>Título</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (product of products(); track product.product.id) {
+        <tr>
+          <th>
+            <label>
+              <input
+                type="checkbox"
+                class="checkbox"
+                [checked]="isSelected(product.product.id)"
+                (change)="toggleSelect(product.product.id)"
+              />
+            </label>
+          </th>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar">
+                <div class="mask mask-squircle h-12 w-12">
+                  <img
+                    [src]="product.product.images | productImage"
+                    [alt]="product.product.title"
+                  />
+                </div>
+              </div>
+              <div>
+                <a
+                  [routerLink]="['/product', product.product.slug]"
+                  class="font-bold hover:text-accent transition-colors duration-300"
+                >
+                  {{ product.product.title }}
+                </a>
+                <div class="text-sm opacity-50">
+                  {{ product.product.sizes.join(', ') }}
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>{{ product.product.price | currency }}</td>
+          <td>
+            <span class="badge badge-success">{{ product.quantity }}</span>
+          </td>
+          <td>
+            <div class="flex items-center gap-2">
+              <button
+                class="btn btn-sm btn-outline"
+                (click)="changeQuantity(product.product.id, -1)"
+                [disabled]="product.quantity <= 1"
+              >
+                -
+              </button>
+              <span class="badge badge-success">{{ product.quantity }}</span>
+              <button
+                class="btn btn-sm btn-outline"
+                (click)="changeQuantity(product.product.id, 1)"
+              >
+                +
+              </button>
+            </div>
+          </td>
+          <td>
+            <a
+              [routerLink]="['/product', product.product.slug]"
+              class="btn btn-ghost text-accent btn-xs"
+            >
+              Detalles
+            </a>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,126 @@
+<div class="navbar bg-base-100 px-4">
+  <!-- NAVBAR START: Dropdown solo con géneros -->
+  <div class="navbar-start">
+    <!-- Mobile menu dropdown -->
+    <div class="dropdown lg:hidden">
+      <div tabindex="0" role="button" class="btn btn-ghost">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+        </svg>
+      </div>
+      <ul class="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow z-50">
+        <li><a routerLink="/gender/men" routerLinkActive="text-secondary" class="btn btn-ghost">Hombres</a></li>
+        <li><a routerLink="/gender/women" routerLinkActive="text-secondary" class="btn btn-ghost">Mujeres</a></li>
+        <li><a routerLink="/gender/kid" routerLinkActive="text-secondary" class="btn btn-ghost">Niños</a></li>
+      </ul>
+    </div>
+
+    <!-- Logo visible en desktop -->
+    <a routerLink="/" class="btn btn-ghost text-xl font-montserrat hidden lg:inline-flex">
+      Teslo <span class="text-secondary ml-1">| Shop</span>
+    </a>
+  </div>
+
+  <!-- NAVBAR CENTER: géneros horizontales en desktop -->
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1">
+      <li><a routerLink="/gender/men" routerLinkActive="text-secondary" class="btn btn-ghost">Hombres</a></li>
+      <li><a routerLink="/gender/women" routerLinkActive="text-secondary" class="btn btn-ghost">Mujeres</a></li>
+      <li><a routerLink="/gender/kid" routerLinkActive="text-secondary" class="btn btn-ghost">Niños</a></li>
+    </ul>
+  </div>
+
+  <!-- Logo centrado en mobile -->
+  <div class="lg:hidden absolute left-1/2 transform -translate-x-1/2">
+    <a routerLink="/" class="btn btn-ghost text-xl font-montserrat">
+      Teslo <span class="text-secondary ml-1">| Shop</span>
+    </a>
+  </div>
+
+  <!-- NAVBAR END: login/admin/carrito -->
+  <div class="navbar-end gap-2">
+    @if (authService.authStatus() === 'authenticated') {
+      <!-- Carrito desktop -->
+      <div class="relative hidden lg:block">
+        <a
+          routerLink="/cart"
+          class="btn bg-secondary text-white hover:bg-secondary/90 border-none gap-2 pr-6"
+        >
+          <!-- Ícono carrito -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 20c0 1.11-.89 2-2 2a2 2 0 0 1-2-2c0-1.11.89-2 2-2a2 2 0 0 1 2 2M7 18c-1.11 0-2 .89-2 2a2 2 0 0 0 2 2c1.11 0 2-.89 2-2s-.89-2-2-2m.2-3.37l-.03.12c0 .14.11.25.25.25H19v2H7a2 2 0 0 1-2-2c0-.35.09-.68.24-.96l1.36-2.45L3 4H1V2h3.27l.94 2H20c.55 0 1 .45 1 1c0 .17-.05.34-.12.5l-3.58 6.47c-.34.61-1 1.03-1.75 1.03H8.1z"/>
+          </svg>
+          Mi Carrito
+        </a>
+        @if (count > 0) {
+          <span
+            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
+          >
+            {{ count }}
+          </span>
+        }
+      </div>
+
+      <!-- Carrito mobile (solo ícono) -->
+      <div class="relative block lg:hidden">
+        <a routerLink="/cart" class="btn btn-ghost p-2">
+          <!-- Ícono carrito -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 20c0 1.11-.89 2-2 2a2 2 0 0 1-2-2c0-1.11.89-2 2-2a2 2 0 0 1 2 2M7 18c-1.11 0-2 .89-2 2a2 2 0 0 0 2 2c1.11 0 2-.89 2-2s-.89-2-2-2m.2-3.37l-.03.12c0 .14.11.25.25.25H19v2H7a2 2 0 0 1-2-2c0-.35.09-.68.24-.96l1.36-2.45L3 4H1V2h3.27l.94 2H20c.55 0 1 .45 1 1c0 .17-.05.34-.12.5l-3.58 6.47c-.34.61-1 1.03-1.75 1.03H8.1zM8.5 11H10V9H7.56zM11 9v2h3V9zm3-1V6h-3v2zm3.11 1H15v2h1zm1.67-3H15v2h2.67zM6.14 6l.94 2H10V6z"/>
+          </svg>
+        </a>
+        @if (count > 0) {
+          <span
+            class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center"
+          >
+            {{ count }}
+          </span>
+        }
+      </div>
+    }
+
+    <!-- Dropdown usuario/admin -->
+    <div class="dropdown dropdown-end">
+      <div tabindex="0" role="button" class="btn btn-ghost">
+        <!-- Ícono usuario -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M12 19.2c-2.5 0-4.71-1.28-6-3.2c.03-2 4-3.1 6-3.1s5.97 1.1 6 3.1a7.23 7.23 0 0 1-6 3.2M12 5a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-3A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10c0-5.53-4.5-10-10-10"/>
+        </svg>
+      </div>
+
+      <ul class="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow z-50">
+        @if (authService.authStatus() === 'authenticated') {
+          <li>
+            <span class="px-4 py-2 text-sm text-gray-500">
+              Hola, {{ authService.user()?.fullName }}
+            </span>
+          </li>
+
+          <li class="mb-2">
+            <a routerLink="/shared" class="btn btn-warning gap-2">
+              ¡Carritos Compartidos!
+            </a>
+          </li>
+
+          @if (authService.isAdmin()) {
+            <li class="mb-2">
+              <a routerLink="/admin" class="btn btn-ghost text-accent">Admin Panel</a>
+            </li>
+          }
+
+          <li>
+            <a (click)="authService.logout()" routerLink="/" class="btn btn-error">
+              Salir
+            </a>
+          </li>
+        } @else {
+          <li>
+            <a routerLink="/auth/login" class="btn btn-secondary">
+              Login
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</div>

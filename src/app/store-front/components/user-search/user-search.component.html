@@ -1,0 +1,30 @@
+<div class="relative w-full max-w-md">
+  <label class="label">
+    <span class="label-text">Compartir con usuario</span>
+  </label>
+
+  <input
+    #inputElement
+    type="text"
+    class="input input-bordered w-full"
+    [formControl]="searchControl"
+    placeholder="Buscar por nombre o email"
+    (keydown)="handleKeydown($event)"
+  />
+
+  <ul
+    class="absolute z-10 w-full bg-white border rounded-md shadow-lg mt-1 max-h-60 overflow-auto"
+    [class.hidden]="matchedUsers().length === 0"
+  >
+    @for (user of matchedUsers(); track user.id; let i = $index) {
+      <li
+        (click)="selectUser(user)"
+        [class.bg-yellow-100]="i === highlightedIndex()"
+        class="px-4 py-2 hover:bg-yellow-100 cursor-pointer transition"
+      >
+        <span class="font-medium">{{ user.fullName }}</span>
+        <span class="text-xs text-gray-500 ml-2">({{ user.email }})</span>
+      </li>
+    }
+  </ul>
+</div>

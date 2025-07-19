@@ -1,0 +1,46 @@
+<div class="card card-compact h-full flex flex-col bg-base-100 shadow-xl border border-accent animate-fadeIn">
+  @if (product()) {
+    <figure>
+      <img [src]="product().images | productImage" [alt]="product().title" />
+    </figure>
+
+    <div class="card-body flex flex-col flex-grow">
+      <h2
+        class="card-title font-montserrat text-accent text-lg hover:underline cursor-pointer"
+        [routerLink]="['/product', product().slug]"
+      >
+        {{ product().title }}
+      </h2>
+
+      <p class="flex-grow">{{ product().description | slice: 0:70 }}...</p>
+
+      <div class="card-actions justify-end mt-auto">
+        @if (product().stock !== undefined && product().stock !== null) {
+          <span class="text-sm link-accent">
+              {{ productService.getStockLabel(product().stock) }}
+          </span>
+        }
+
+        @if (authService.authStatus() === 'not-authenticated') {
+          <a class="link link-accent" [routerLink]="['/auth/login']">
+            Agregar al carrito
+          </a>
+        } @else {
+          <a
+            class="link link-accent"
+            [class.opacity-50]="!product()"
+            [class.pointer-events-none]="!product()"
+            (click)="product() && cartService.addToCart(authService.user()!.id, product()!)"
+          >
+            Agregar al carrito
+          </a>
+        }
+
+
+        <a class="link link-accent" [routerLink]="['/product', product().slug]">
+          Ver producto
+        </a>
+      </div>
+    </div>
+  }
+</div>
