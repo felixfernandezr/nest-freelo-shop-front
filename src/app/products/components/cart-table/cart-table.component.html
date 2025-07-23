@@ -110,7 +110,8 @@
         class="btn btn-primary" 
         (click)="buyNow()"
       >
-        Compra ahora
+        <span>Compra ahora</span>
+        <span>{{ totalAmount() | currency }}</span>
       </button>
     </div>
   }

@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class CartTableComponent {
   cartService = inject(CartItemService)
   private router = inject(Router);
-  
+
   products = input.required<CartItem[]>();
 
 
@@ -29,6 +29,12 @@ export class CartTableComponent {
   readonly allSelected = computed(() =>
     this.products().length > 0 &&
     this.products().every(p => this.selectedIds().has(p.product.id))
+  );
+
+  readonly totalAmount = computed(() =>
+    this.products()?.reduce((acc, item) => {
+      return acc + item.product.price * item.quantity;
+    }, 0) ?? 0
   );
 
   toggleSelect(productId: string) {
