@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-products-admin-page',
-  imports: [ProductTableComponent, PaginationComponent, RouterLink],
+  imports: [ProductTableComponent, PaginationComponent],
   templateUrl: './products-admin-page.component.html',
 })
 export class ProductsAdminPageComponent {

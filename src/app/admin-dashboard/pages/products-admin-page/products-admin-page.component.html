@@ -13,7 +13,7 @@
   />
 
   <select
-    class="select select-bordered w-32"
+    class="select select-bordered w-32 mt-2"
     (change)="productsPerPage.set(+selectPerPage.value)"
     #selectPerPage
   >
@@ -25,9 +25,6 @@
 
   <div class="flex flex-1"></div>
 
-  <button class="btn btn-primary" routerLink="/admin/products/new">
-    Nuevo producto
-  </button>
 </div>
 
 <!-- Listado -->

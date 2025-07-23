@@ -26,7 +26,10 @@ export class HomePageComponent {
 
   filteredProducts = computed(() => {
     const products = this.productsResource.value()?.products ?? [];
-    console.log('Productos recibidos:', products.map(p => p.id));
-    return products.filter(p => !p.title?.startsWith('Carrito virtual'));
+    return products.filter(
+      p =>
+        !p.title?.startsWith('Carrito virtual') &&
+        !p.title?.startsWith('Carritos compartidos')
+    );
   });
 }

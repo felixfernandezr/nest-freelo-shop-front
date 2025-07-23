@@ -11,7 +11,6 @@ import { ProductCarouselComponent } from '@products/components/product-carousel/
 import { firstValueFrom } from 'rxjs';
 
 import { Product } from '@products/interfaces/product.interface';
-import { FormUtils } from '@utils/form-utils';
 import { ProductsService } from '@products/services/products.service';
 
 import { FormErrorLabelComponent } from '../../../../shared/components/form-error-label/form-error-label.component';
@@ -51,7 +50,7 @@ export class ProductDetailsComponent implements OnInit {
     description: ['', Validators.required],
     slug: [
       '',
-      [Validators.required, Validators.pattern(FormUtils.slugPattern)],
+      [Validators.required, Validators.pattern('^[a-z0-9_]+(?:-[a-z0-9_]+)*$')],
     ],
     price: [0, [Validators.required, Validators.min(0)]],
     stock: [0, [Validators.required, Validators.min(0)]],

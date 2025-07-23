@@ -4,7 +4,7 @@ import { AuthService } from '@auth/services/auth.service';
 
 @Component({
   selector: 'app-admin-dashboard-layout',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink],
   templateUrl: './admin-dashboard-layout.component.html',
 })
 export class AdminDashboardLayoutComponent {

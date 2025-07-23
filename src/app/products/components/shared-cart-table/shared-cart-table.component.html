@@ -1,26 +1,7 @@
 <div class="overflow-x-auto">
-  <!-- Botón eliminar -->
-  @if (hasSelection()) {
-    <div class="mb-4">
-      <button class="btn btn-error btn-sm" (click)="deleteSelectedItems()">
-        🗑️ Eliminar seleccionados
-      </button>
-    </div>
-  }
-
   <table class="table">
     <thead>
       <tr>
-        <th>
-          <label>
-            <input
-              type="checkbox"
-              class="checkbox"
-              [checked]="allSelected()"
-              (change)="toggleSelectAll()"
-            />
-          </label>
-        </th>
         <th>Título</th>
         <th>Precio</th>
         <th>Cantidad</th>
@@ -30,16 +11,6 @@
     <tbody>
       @for (product of products(); track product.product.id) {
         <tr>
-          <th>
-            <label>
-              <input
-                type="checkbox"
-                class="checkbox"
-                [checked]="isSelected(product.product.id)"
-                (change)="toggleSelect(product.product.id)"
-              />
-            </label>
-          </th>
           <td>
             <div class="flex items-center gap-3">
               <div class="avatar">
@@ -69,23 +40,7 @@
           </td>
           <td>
             <div class="flex items-center gap-2">
-              <button
-                class="btn btn-sm btn-outline"
-                (click)="changeQuantity(product.product.id, -1)"
-                [disabled]="product.quantity <= 1 || cartService.cooldownMap[product.product.id]"
-              >
-                -
-              </button>
-
               <span class="badge badge-success">{{ product.quantity }}</span>
-
-              <button
-                class="btn btn-sm btn-outline"
-                (click)="changeQuantity(product.product.id, 1)"
-                [disabled]="cartService.cooldownMap[product.product.id]"
-              >
-                +
-              </button>
             </div>
           </td>
           <td>

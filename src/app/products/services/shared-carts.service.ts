@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable } from '@angular/core';
 import { CartItem } from '@products/interfaces/cart-item.interface';
 import { SharedCartsBackendAdapterService } from './shared-carts-backend-adapter.service';
 import { User } from '@auth/interfaces/user.interface';
 import { CartItemService } from './cart-item.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 
 type SharedCart = {
   sharedBy: User;
@@ -15,6 +15,9 @@ type SharedCart = {
 export class SharedCartService {
   private lastFetchedUserId: string | null = null;
   private sharedCartsSubject = new BehaviorSubject<SharedCart[]>([]);
+  readonly sharedCartCount$: Observable<number> = this.sharedCartsSubject.pipe(
+      map((carts) => carts.length)
+    );
 
   constructor(
     private sharedBackend: SharedCartsBackendAdapterService,
@@ -27,23 +30,24 @@ export class SharedCartService {
   }
 
   getSharedCarts(userId: string): Observable<SharedCart[]> {
-    if (this.lastFetchedUserId !== userId) {
-      this.sharedBackend.loadSharedCarts(userId).subscribe({
-        next: (carts) => this.sharedCartsSubject.next(carts),
-        error: () => this.sharedCartsSubject.next([]),
-      });
-      this.lastFetchedUserId = userId;
-    }
-    return this.sharedCartsSubject.asObservable();
-  }
-
-  /** Forzar recarga, si hace falta */
-  refreshSharedCarts(userId: string) {
     this.sharedBackend.loadSharedCarts(userId).subscribe({
       next: (carts) => this.sharedCartsSubject.next(carts),
       error: () => this.sharedCartsSubject.next([]),
     });
     this.lastFetchedUserId = userId;
+
+    return this.sharedCartsSubject.asObservable();
+  }
+
+
+  refreshSharedCarts(userId: string): Observable<SharedCart[]> {
+    const obs = this.sharedBackend.loadSharedCarts(userId).pipe(
+      catchError(() => of([])),
+      tap((carts) => this.sharedCartsSubject.next(carts))
+    );
+    obs.subscribe(); // mantiene comportamiento anterior
+    this.lastFetchedUserId = userId;
+    return obs;
   }
 
   clearCache() {

@@ -93,32 +93,32 @@ export class ProductsService {
   }
 
   updateProduct(
-  id: string,
-  productLike: Partial<Product>,
-  imageFileList?: FileList
-): Observable<Product> {
-  // si no hay imagenes nuevas, hacemos un patch directo
-  if (!imageFileList) {
-    console.log('No hay imagenes, actualizando producto directamente')
-    return this.http.patch<Product>(`${baseUrl}/products/${id}`, productLike).pipe(
+    id: string,
+    productLike: Partial<Product>,
+    imageFileList?: FileList
+  ): Observable<Product> {
+    // si no hay imagenes nuevas, hacemos un patch directo
+    if (!imageFileList) {
+      console.log('No hay imagenes, actualizando producto directamente')
+      return this.http.patch<Product>(`${baseUrl}/products/${id}`, productLike).pipe(
+        tap((product) => this.updateProductCache(product))
+      );
+    }
+
+    // solo si hay imagenes nuevas, subimos y las combinamos
+    const currentImages = productLike.images ?? [];
+
+    return this.uploadImages(imageFileList).pipe(
+      map((imageNames) => ({
+        ...productLike,
+        images: [...currentImages, ...imageNames],
+      })),
+      switchMap((updatedProduct) =>
+        this.http.patch<Product>(`${baseUrl}/products/${id}`, updatedProduct)
+      ),
       tap((product) => this.updateProductCache(product))
     );
   }
-
-  // solo si hay imagenes nuevas, subimos y las combinamos
-  const currentImages = productLike.images ?? [];
-
-  return this.uploadImages(imageFileList).pipe(
-    map((imageNames) => ({
-      ...productLike,
-      images: [...currentImages, ...imageNames],
-    })),
-    switchMap((updatedProduct) =>
-      this.http.patch<Product>(`${baseUrl}/products/${id}`, updatedProduct)
-    ),
-    tap((product) => this.updateProductCache(product))
-  );
-}
 
   createProduct(
     productLike: Partial<Product>,

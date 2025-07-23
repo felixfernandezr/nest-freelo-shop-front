@@ -1,44 +1,50 @@
-<div class="card card-compact h-full flex flex-col bg-base-100 shadow-xl border border-accent animate-fadeIn">
+<div class="card card-compact h-full flex flex-col bg-base-100 shadow-xl border border-black animate-fadeIn rounded-lg">
   @if (product()) {
-    <figure>
-      <img [src]="product().images | productImage" [alt]="product().title" />
-    </figure>
+    <a [routerLink]="['/product', product().slug]">
+      <figure class="cursor-pointer rounded-t-lg overflow-hidden">
+        <img
+          [src]="product().images | productImage"
+          [alt]="product().title"
+          class="hover:opacity-80 transition-opacity duration-300 w-full h-auto object-cover"
+        />
+      </figure>
+    </a>
 
-    <div class="card-body flex flex-col flex-grow">
+    <div class="card-body flex flex-col flex-grow rounded-b-lg">
       <h2
-        class="card-title font-montserrat text-accent text-lg hover:underline cursor-pointer"
+        class="card-title font-montserrat text-black text-lg hover:underline cursor-pointer"
         [routerLink]="['/product', product().slug]"
       >
         {{ product().title }}
       </h2>
 
-      <p class="flex-grow">{{ product().description | slice: 0:70 }}...</p>
+      <p class="flex-grow">
+        {{ product().description | slice: 0:70 }}...
+      </p>
 
-      <div class="card-actions justify-end mt-auto">
+      <div class="card-actions mt-auto flex items-center justify-between gap-2 [&>*]:whitespace-nowrap">
         @if (product().stock !== undefined && product().stock !== null) {
-          <span class="text-sm link-accent">
-              {{ productService.getStockLabel(product().stock) }}
+          <span class="text-sm text-black">
+            {{ productService.getStockLabel(product().stock) }}
           </span>
         }
 
         @if (authService.authStatus() === 'not-authenticated') {
-          <a class="link link-accent" [routerLink]="['/auth/login']">
+          <a class="btn btn-outline btn-black btn-sm" [routerLink]="['/auth/login']">
             Agregar al carrito
           </a>
         } @else {
-          <a
-            class="link link-accent"
-            [class.opacity-50]="!product()"
-            [class.pointer-events-none]="!product()"
-            (click)="product() && cartService.addToCart(authService.user()!.id, product()!)"
+          <button
+            class="btn btn-outline btn-black btn-sm"
+            [disabled]="cartService.cooldownMap[product().id] || product().stock <= 0"
+            (click)="product() && cartService.changeCartQuant(authService.user()!.id, product()!, 1)"
           >
             Agregar al carrito
-          </a>
+          </button>
         }
 
-
-        <a class="link link-accent" [routerLink]="['/product', product().slug]">
-          Ver producto
+        <a class="btn btn-outline btn-black btn-sm" [routerLink]="['/product', product().slug]">
+          Detalles
         </a>
       </div>
     </div>
