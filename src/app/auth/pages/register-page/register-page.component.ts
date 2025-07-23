@@ -34,21 +34,28 @@ export class RegisterPageComponent {
 
 
   onSubmit() {
+    // 🔧 Normalizar antes de validar
+    const rawName = this.registerForm.get('fullName')?.value ?? '';
+    const cleanedFullName = rawName.trim().replace(/\s+/g, ' ');
+    this.registerForm.get('fullName')?.setValue(cleanedFullName);
+
+    // 👉 Ahora sí validamos
     if (this.registerForm.invalid) {
       this.hasError.set(true);
       setTimeout(() => this.hasError.set(false), 2000);
       return;
     }
 
-    const { fullName = '', email = '', password = '' } = this.registerForm.value;
+    const { fullName, email = '', password = '' } = this.registerForm.value;
 
     this.authService.register(fullName!, email!, password!).subscribe((ok) => {
       if (ok) {
         this.router.navigateByUrl('/');
       } else {
         this.hasError.set(true);
-        setTimeout(() => this.hasError.set(false), 2000);
+        setTimeout(() => this.hasError.set(false), 3500);
       }
     });
   }
+
 }

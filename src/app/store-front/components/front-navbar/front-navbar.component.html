@@ -71,7 +71,7 @@
           @if (authService.authStatus() === 'authenticated') {
             <li>
               <span class="font-bold text-black text-base">
-                Hola, {{ authService.user()?.fullName }}
+                Hola, {{ displayName }}
               </span>
             </li>
 

@@ -23,6 +23,8 @@ export class FrontNavbarComponent implements OnInit, OnDestroy {
   isMobileMenuOpen = false;
   isUserDropdownOpen = false;
 
+  displayName = this.authService.user()?.fullName.split(' ').slice(0, 2).join(' ');
+
   ngOnInit(): void {
     this.subscription = this.cartService.cartItemCount$.subscribe(count => {
       this.count = count;
