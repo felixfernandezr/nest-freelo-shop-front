@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { CartItem } from '@products/interfaces/cart-item.interface';
 import { ProductImagePipe } from '@products/pipes/product-image.pipe';
 import { CartItemService } from '@products/services/cart-item.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'cart-table',
@@ -13,7 +14,8 @@ import { CartItemService } from '@products/services/cart-item.service';
 })
 export class CartTableComponent {
   cartService = inject(CartItemService)
-
+  private router = inject(Router);
+  
   products = input.required<CartItem[]>();
 
 
@@ -64,5 +66,11 @@ export class CartTableComponent {
     if (product) {
       this.cartService.changeCartQuant(product.userId, product.product, change);
     }
+  }
+
+  buyNow() {
+    this.toggleSelectAll();
+    this.deleteSelectedItems();
+    this.router.navigate(['/buy']);
   }
 }

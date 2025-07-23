@@ -5,6 +5,7 @@ import { ProductPageComponent } from './pages/product-page/product-page.componen
 import { NotFoundComponent } from '@shared/components/not-found/not-found.component';
 import { ProductCartPageComponent } from './pages/product-cart-page/product-cart-page.component';
 import { SharedCartsPageComponent } from './pages/shared-carts-page/shared-carts-page.component';
+import { BuyProductPageComponent } from './pages/buy-product-page/buy-product-page.component';
 
 export const storeFrontRoutes: Routes = [
   {
@@ -27,6 +28,10 @@ export const storeFrontRoutes: Routes = [
       {
         path: 'shared',
         component: SharedCartsPageComponent,
+      },
+      {
+        path: 'buy',
+        component: BuyProductPageComponent,
       },
 
       {

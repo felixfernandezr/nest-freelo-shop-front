@@ -68,6 +68,9 @@
             <span class="badge badge-success">{{ product.quantity }}</span>
           </td>
           <td>
+            {{ (product.product.price * product.quantity) | currency }}
+          </td>  
+          <td>
             <div class="flex items-center gap-2">
               <button
                 class="btn btn-sm btn-outline"
