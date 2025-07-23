@@ -103,4 +103,15 @@
       }
     </tbody>
   </table>
+
+  @if (products()) {
+    <div class="mb-4">
+      <button 
+        class="btn btn-primary" 
+        (click)="buyNow()"
+      >
+        Compra ahora
+      </button>
+    </div>
+  }
 </div>
