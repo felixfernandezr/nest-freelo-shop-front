@@ -19,10 +19,19 @@ export class RegisterPageComponent {
   isPosting = signal(false);
 
   registerForm = this.fb.group({
-    fullName: ['', [Validators.required,Validators.pattern('([a-zA-Z]+) ([a-zA-Z]+)')]],
+    fullName: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern(
+          "^[A-ZÁÉÍÓÚÑa-záéíóúñ]+(?:['\\-]?[A-ZÁÉÍÓÚÑa-záéíóúñ]+)*(?:\\s+[A-ZÁÉÍÓÚÑa-záéíóúñ]+(?:['\\-]?[A-ZÁÉÍÓÚÑa-záéíóúñ]+)*)+$"
+        )
+      ]
+    ],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
+
 
   onSubmit() {
     if (this.registerForm.invalid) {
